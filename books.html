@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lab 4b - JSON Fetch</title>
+</head>
+<body>
+    <h1>Book Information</h1>
+    <div id="output"></div>
+
+    <script>
+        fetch('books.json')
+            .then(response => {
+                if (!response.ok) throw new Error('fails tu uploaded file');
+                return response.json();
+            })
+            .then(data => {
+                const outputDiv = document.getElementById('output');
+                let htmlContent = '';
+
+              
+                const book1Title = data.books[0].title;
+                const book2Author = data.books[1].author;
+                const book1Genres = data.books[0].genres.join(', ');
+                const book2Genres = data.books[1].genres.join(', ');
+
+                htmlContent = `
+                    <p><strong>Title (Book 1):</strong> ${book1Title}</p>
+                    <p><strong>Author (Book 2):</strong> ${book2Author}</p>
+                    <p>${book1Title} ${book1Genres}; ${book2Author ? data.books[1].title : ''} ${book2Genres}</p> 
+                `;
+                outputDiv.innerHTML = htmlContent; 
+            })
+            .catch(error => {
+                document.getElementById('output').textContent = `Error: ${error.message}`;
+            });
+    </script>
+</body>
+</html>
